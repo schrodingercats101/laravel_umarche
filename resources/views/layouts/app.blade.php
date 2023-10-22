@@ -18,11 +18,11 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @if(auth('admin')->user())
+            @if(request()->is('admin*'))
                 @include('layouts.admin-navigation')
-            @elseif(auth('users')->user())
+            @elseif(request()->is('owner*'))
                 @include('layouts.user-navigation')
-            @elseif(auth('owners')->user())
+            @else
                 @include('layouts.owner-navigation')
             @endif
             <!-- Page Heading -->
