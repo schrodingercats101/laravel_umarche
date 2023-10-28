@@ -21,9 +21,9 @@
             @if(request()->is('admin*'))
                 @include('layouts.admin-navigation')
             @elseif(request()->is('owner*'))
-                @include('layouts.user-navigation')
-            @else
                 @include('layouts.owner-navigation')
+            @else
+                @include('layouts.user-navigation')
             @endif
             <!-- Page Heading -->
             <header class="bg-white shadow">
