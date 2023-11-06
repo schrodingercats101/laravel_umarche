@@ -24,9 +24,9 @@
                         画像管理
                     </x-nav-link>
 
-                    {{-- <x-nav-link :href="route('owner.products.index')" :active="request()->routeIs('owner.products.index')">
+                    <x-nav-link :href="route('owner.products.index')" :active="request()->routeIs('owner.products.index')">
                         商品管理
-                    </x-nav-link> --}}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
 use Illuminate\Http\Request;
+use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UploadImageRequest;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\Exists;
+
 
 class ImageController extends Controller
 {
@@ -18,26 +19,24 @@ class ImageController extends Controller
         $this->middleware('auth:owners');
 
         $this->middleware(function ($request, $next) {
-            // dd($request->route()->parameter('shop')); //文字列
-            // dd(Auth::id()); //数字
 
-            $id = $request->route()->parameter('image'); //shopのid取得
-            if(!is_null($id)){ // null判定
+            $id = $request->route()->parameter('image');
+            if(!is_null($id)){
             $imagesOwnerId = Image::findOrFail($id)->owner->id;
-                $imageId = (int)$imagesOwnerId; // キャスト 文字列→数値に型変
-                if($imageId !== Auth::id()){ // 同じでなかったら
-                    abort(404); // 404画面表示
+                $imageId = (int)$imagesOwnerId;
+                if($imageId !== Auth::id()){
+                    abort(404);
                 }
             }
             return $next($request);
         });
     }
 
+
     public function index()
     {
-        //$ownerId = Auth::id();
         $images = Image::where('owner_id', Auth::id())
-        ->orderBy('updated_at','desc')
+        ->orderBy('updated_at', 'desc')
         ->paginate(20);
 
         return view('owner.images.index',
@@ -79,39 +78,27 @@ class ImageController extends Controller
         'status' => 'info']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $image = Image::findOrFail($id);
-        // dd(Shop::findOrFail($id));
         return view('owner.images.edit', compact('image'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'string|max:50',
+            'title' => 'string|max:50'
         ]);
 
         $image = Image::findOrFail($id);
         $image->title = $request->title;
         $image->save();
 
-        return redirect()->route('owner.images.index')
+        return redirect()
+        ->route('owner.images.index')
         ->with(['message' => '画像情報を更新しました。',
-        'status' => 'info']);;
+        'status' => 'info']);
     }
 
     /**
