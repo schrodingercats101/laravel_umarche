@@ -38,10 +38,10 @@ middleware('auth:owners')->group(function(){
     Route::post('update/{shop}', [shopController::class, 'update'])->name('shops.update');
 });
 
-Route::resource('images', ProductController::class)
+Route::resource('images', ImageController::class)
 ->middleware('auth:owners')->except(['show']);
 
-Route::resource('products', ImageController::class)
+Route::resource('products', ProductController::class)
 ->middleware('auth:owners')->except(['show']);
 
 Route::get('/dashboard', function () {

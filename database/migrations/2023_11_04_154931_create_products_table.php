@@ -15,6 +15,10 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('information');
+            $table->unsignedBigInteger('price');
+            $table->integer('sort_order')->nullable();
             $table->foreignId('shop_id')
             ->constrained()
             ->onUpdate('cascade')
