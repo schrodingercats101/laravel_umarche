@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('information');
             $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('is_selling');
             $table->integer('sort_order')->nullable();
             $table->foreignId('shop_id')
             ->constrained()
@@ -26,6 +27,15 @@ class CreateProductsTable extends Migration
             $table->foreignId('secondary_category_id')
             ->constrained('images');
             $table->foreignId('image1')
+            ->nullable()
+            ->constrained('images');
+            $table->foreignId('image2')
+            ->nullable()
+            ->constrained('images');
+            $table->foreignId('image3')
+            ->nullable()
+            ->constrained('images');
+            $table->foreignId('image4')
             ->nullable()
             ->constrained('images');
             $table->timestamps();
